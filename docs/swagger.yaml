@@ -1,0 +1,63 @@
+basePath: /
+definitions:
+  database.Address:
+    properties:
+      city:
+        type: string
+      country:
+        type: string
+      postalCode:
+        type: string
+      state_or_province:
+        type: string
+      street:
+        type: string
+    type: object
+  database.Hotel:
+    properties:
+      address:
+        $ref: '#/definitions/database.Address'
+      id:
+        type: string
+      name:
+        type: string
+      phone:
+        type: string
+      pois:
+        items:
+          type: string
+        type: array
+    type: object
+  server.ErrorResponse:
+    description: Error response
+    properties:
+      error:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: This is a sample server for CassandraTest.
+  title: CassandraTest API
+  version: "1.0"
+paths:
+  /hotels:
+    get:
+      description: get hotels
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/database.Hotel'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/server.ErrorResponse'
+      summary: List hotels
+      tags:
+      - hotels
+swagger: "2.0"

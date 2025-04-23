@@ -3,7 +3,14 @@ package main
 import (
 	"cassandratest/internal/database"
 	"cassandratest/internal/server"
+	_ "cassandratest/docs"
 )
+
+// @title CassandraTest API
+// @version 1.0
+// @description This is a sample server for CassandraTest.
+// @host localhost:8080
+// @BasePath /
 
 func main() {
 
