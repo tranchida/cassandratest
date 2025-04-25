@@ -15,6 +15,41 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/hotel/{id}": {
+            "get": {
+                "description": "get hotel by id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "hotels"
+                ],
+                "summary": "Get hotel by id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Hotel ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Hotel"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/server.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/hotels": {
             "get": {
                 "description": "get hotels",
@@ -31,7 +66,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/database.Hotel"
+                                "$ref": "#/definitions/model.Hotel"
                             }
                         }
                     },
@@ -46,7 +81,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "database.Address": {
+        "model.Address": {
             "type": "object",
             "properties": {
                 "city": {
@@ -66,11 +101,11 @@ const docTemplate = `{
                 }
             }
         },
-        "database.Hotel": {
+        "model.Hotel": {
             "type": "object",
             "properties": {
                 "address": {
-                    "$ref": "#/definitions/database.Address"
+                    "$ref": "#/definitions/model.Address"
                 },
                 "id": {
                     "type": "string"
@@ -80,12 +115,6 @@ const docTemplate = `{
                 },
                 "phone": {
                     "type": "string"
-                },
-                "pois": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
                 }
             }
         },

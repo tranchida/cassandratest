@@ -1,6 +1,6 @@
 basePath: /
 definitions:
-  database.Address:
+  model.Address:
     properties:
       city:
         type: string
@@ -13,20 +13,16 @@ definitions:
       street:
         type: string
     type: object
-  database.Hotel:
+  model.Hotel:
     properties:
       address:
-        $ref: '#/definitions/database.Address'
+        $ref: '#/definitions/model.Address'
       id:
         type: string
       name:
         type: string
       phone:
         type: string
-      pois:
-        items:
-          type: string
-        type: array
     type: object
   server.ErrorResponse:
     description: Error response
@@ -41,6 +37,29 @@ info:
   title: CassandraTest API
   version: "1.0"
 paths:
+  /hotel/{id}:
+    get:
+      description: get hotel by id
+      parameters:
+      - description: Hotel ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Hotel'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/server.ErrorResponse'
+      summary: Get hotel by id
+      tags:
+      - hotels
   /hotels:
     get:
       description: get hotels
@@ -51,7 +70,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/database.Hotel'
+              $ref: '#/definitions/model.Hotel'
             type: array
         "500":
           description: Internal Server Error
